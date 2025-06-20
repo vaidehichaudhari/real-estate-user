@@ -3,17 +3,17 @@ import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {
   FaMapMarkerAlt,
-  FaBuilding,
-  FaRupeeSign,
   FaTag,
+  FaRupeeSign,
+  FaBed,
   FaSearch,
 } from "react-icons/fa";
 
 const HeroSection = () => {
   const [location, setLocation] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState(""); // property type (sale/rent)
   const [priceRange, setPriceRange] = useState("");
-  const [purpose, setPurpose] = useState("");
+  const [bedroom, setBedroom] = useState("");
 
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const HeroSection = () => {
       location,
       type,
       priceRange,
-      purpose,
+      bedroom,
     }).toString();
 
     navigate(`/listing?${queryParams}`);
@@ -58,40 +58,29 @@ const HeroSection = () => {
         }}
       ></div>
 
-      <Container
-        className="position-relative"
-        style={{ zIndex: 1, maxWidth: "1000px" }}
-      >
+      <Container className="position-relative" style={{ zIndex: 1, maxWidth: "1000px" }}>
         <Row className="justify-content-center text-center mb-4">
           <Col lg={8}>
-            <h1
-              className="fw-bold display-5"
-              style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.7)" }}
-            >
+            <h1 className="fw-bold display-5" style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.7)" }}>
               Find Your Dream Property
             </h1>
-            <p
-              className="lead"
-              style={{ fontWeight: "500", textShadow: "1px 1px 5px rgba(0,0,0,0.6)" }}
-            >
-              Search from a wide range of properties across your favorite
-              locations.
+            <p className="lead" style={{ fontWeight: "500", textShadow: "1px 1px 5px rgba(0,0,0,0.6)" }}>
+              Search from a wide range of properties across your favorite locations.
             </p>
           </Col>
         </Row>
 
         <Form onSubmit={handleSearch}>
           <Row className="g-3 justify-content-center align-items-center">
+            {/* Location */}
             <Col md={3} sm={6}>
               <InputGroup className="shadow-sm rounded">
-                <InputGroup.Text
-                  style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}
-                >
+                <InputGroup.Text style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}>
                   <FaMapMarkerAlt />
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
-                  placeholder="Location"
+                  placeholder="City / Location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   style={{ borderRadius: "0 0.5rem 0.5rem 0", border: "none" }}
@@ -99,12 +88,11 @@ const HeroSection = () => {
               </InputGroup>
             </Col>
 
+            {/* Property Type */}
             <Col md={2} sm={6}>
               <InputGroup className="shadow-sm rounded">
-                <InputGroup.Text
-                  style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}
-                >
-                  <FaBuilding />
+                <InputGroup.Text style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}>
+                  <FaTag />
                 </InputGroup.Text>
                 <Form.Select
                   value={type}
@@ -112,19 +100,16 @@ const HeroSection = () => {
                   style={{ borderRadius: "0 0.5rem 0.5rem 0", border: "none" }}
                 >
                   <option value="">Property Type</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="House">House</option>
-                  <option value="Villa">Villa</option>
-                  <option value="Office">Office</option>
+                  <option value="For Sale">For Sale</option>
+                  <option value="For Rent">For Rent</option>
                 </Form.Select>
               </InputGroup>
             </Col>
 
+            {/* Price Range */}
             <Col md={2} sm={6}>
               <InputGroup className="shadow-sm rounded">
-                <InputGroup.Text
-                  style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}
-                >
+                <InputGroup.Text style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}>
                   <FaRupeeSign />
                 </InputGroup.Text>
                 <Form.Select
@@ -134,32 +119,34 @@ const HeroSection = () => {
                 >
                   <option value="">Price Range</option>
                   <option value="0-500000">Below ₹5,00,000</option>
-                  <option value="500000-1000000">₹5,00,000 - ₹10,00,000</option>
-                  <option value="1000000-5000000">₹10,00,000 - ₹50,00,000</option>
-                  <option value="5000000+">Above ₹50,00,000</option>
+                  <option value="500000-1000000">₹5L – ₹10L</option>
+                  <option value="1000000-5000000">₹10L – ₹50L</option>
+                  <option value="5000000+">Above ₹50L</option>
                 </Form.Select>
               </InputGroup>
             </Col>
 
+            {/* Bedroom */}
             <Col md={2} sm={6}>
               <InputGroup className="shadow-sm rounded">
-                <InputGroup.Text
-                  style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}
-                >
-                  <FaTag />
+                <InputGroup.Text style={{ backgroundColor: "#0d6efd", color: "white", border: "none" }}>
+                  <FaBed />
                 </InputGroup.Text>
                 <Form.Select
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
+                  value={bedroom}
+                  onChange={(e) => setBedroom(e.target.value)}
                   style={{ borderRadius: "0 0.5rem 0.5rem 0", border: "none" }}
                 >
-                  <option value="">Purpose</option>
-                  <option value="rent">For Rent</option>
-                  <option value="sale">For Sale</option>
+                  <option value="">Bedrooms</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4+">3+</option>
                 </Form.Select>
               </InputGroup>
             </Col>
 
+            {/* Search Button */}
             <Col md={2} sm={6}>
               <Button
                 variant="primary"
